@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hermes RTL & Math Fix</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup-container">
+    <header class="header">
+      <div class="logo-title">
+        <span class="icon">⇌</span>
+        <h2>Hermes RTL Fix</h2>
+      </div>
+      <span class="version">v1.0.0</span>
+    </header>
+
+    <div class="section toggle-row">
+      <span>Enable RTL Assistant</span>
+      <label class="switch">
+        <input type="checkbox" id="toggle-enabled" checked>
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <div class="section">
+      <label class="label">Direction Mode</label>
+      <div class="mode-selector">
+        <button type="button" class="mode-btn active" data-mode="auto">Auto</button>
+        <button type="button" class="mode-btn" data-mode="force-rtl">Force RTL</button>
+        <button type="button" class="mode-btn" data-mode="force-ltr">Force LTR</button>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="toggle-row">
+        <span>Vazirmatn Persian Font</span>
+        <label class="switch">
+          <input type="checkbox" id="toggle-font" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="toggle-row">
+        <span>Formula & Code Protection</span>
+        <label class="switch">
+          <input type="checkbox" id="toggle-formula" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="toggle-row">
+        <span>Input Box Auto-Detect</span>
+        <label class="switch">
+          <input type="checkbox" id="toggle-input" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <button id="apply-btn" class="apply-btn">Apply Now</button>
+      <div class="credit">Developed for Hermes Web UI by <strong>say-alireza</strong></div>
+    </footer>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
