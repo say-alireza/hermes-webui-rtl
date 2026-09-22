@@ -2,6 +2,10 @@
 
 A specialized Chrome Extension and Userscript that resolves Right-to-Left (RTL) text rendering, bidirectional (BiDi) mixed Persian/English issues, and KaTeX mathematical formula reversal in **Hermes Web UI** (Hermes Studio) and other AI chat interfaces.
 
+<p align="center">
+  <img src="assets/popup-screenshot.png" alt="Hermes RTL Fix Popup UI" width="340" />
+</p>
+
 ---
 
 ## The Problem
@@ -57,6 +61,8 @@ If you prefer a userscript:
 
 ```text
 hermes-webui-rtl/
+├── assets/
+│   └── popup-screenshot.png   # Extension UI screenshot
 ├── manifest.json              # Chrome Extension Manifest V3 configuration
 ├── content/
 │   ├── content.js             # BiDi detector, DOM processor & MutationObserver
@@ -71,18 +77,6 @@ hermes-webui-rtl/
 ├── LICENSE                    # MIT License
 └── README.md                  # Documentation
 ```
-
----
-
-## راهنمای فارسی
-
-این ابزار برای حل مشکلات نمایش زبان فارسی در محیط **Hermes Web UI** طراحی شده است:
-
-- **حل معکوس شدن فرمولهای ریاضی و فرمولهای KaTeX:** از چرخش و جابهجایی علائم ریاضی، فلشها و عبارات لاتین در متن فارسی جلوگیری میکند.
-- **تشخیص خودکار پاراگرافهای دوزبانه:** متنهای فارسی به صورت راستبهچپ (RTL) و پاراگرافهای انگلیسی به صورت چپبهراست (LTR) نمایش داده میشوند.
-- **عدم تداخل با کدهای برنامهنویسی:** بلاکهای کد و کدهای درونخطی (`code` و `pre`) بدون به هم ریختگی و کاملاً چپبهراست باقی میمانند.
-- **تغییر جهت هوشمند جعبه متن ورودی:** هنگام تایپ فارسی در کادر چت، جهت متن و مکاننما به صورت خودکار راستبهچپ میشود.
-- **تایپوگرافی زیبا با فونت وزیرمتن:** متنهای فارسی با فونت بهینهسازیشده وزیرمتن و فاصله خطوط مناسب نمایش داده میشوند.
 
 ---
 
