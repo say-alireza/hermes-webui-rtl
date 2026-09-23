@@ -125,70 +125,6 @@ input.hermes-rtl-input,
   unicode-bidi: plaintext !important;
   font-family: "Vazirmatn", "Segoe UI", Tahoma, sans-serif !important;
 }
-
-/* Floating widget */
-#hermes-rtl-floating-widget {
-  position: fixed;
-  bottom: 24px;
-  right: 24px;
-  z-index: 9999999;
-  display: flex;
-  align-items: center;
-  background: rgba(24, 24, 27, 0.88);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 9999px;
-  padding: 4px 10px;
-  gap: 8px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
-  user-select: none;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  font-size: 12px;
-  color: #f4f4f5;
-  cursor: grab;
-}
-#hermes-rtl-floating-widget.disabled {
-  opacity: 0.55;
-  background: rgba(39, 39, 42, 0.7);
-}
-.hermes-rtl-status-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #10b981;
-  box-shadow: 0 0 8px #10b981;
-}
-#hermes-rtl-floating-widget.disabled .hermes-rtl-status-dot {
-  background: #ef4444;
-  box-shadow: 0 0 6px #ef4444;
-}
-.hermes-rtl-toggle-btn {
-  background: none;
-  border: none;
-  color: inherit;
-  font-size: 11px;
-  font-weight: 600;
-  cursor: pointer;
-  padding: 2px 4px;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-.hermes-rtl-badge {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 4px;
-  padding: 1px 5px;
-  font-size: 10px;
-  font-weight: 700;
-}
-.hermes-rtl-mode-switch {
-  cursor: pointer;
-  color: #94a3b8;
-  font-size: 11px;
-  padding: 2px 5px;
-  border-radius: 4px;
-}
 `;
 
   if (typeof GM_addStyle !== 'undefined') {
@@ -306,46 +242,12 @@ input.hermes-rtl-input,
     });
   }
 
-  function createFloatingWidget() {
-    if (document.getElementById('hermes-rtl-floating-widget')) return;
-    const widget = document.createElement('div');
-    widget.id = 'hermes-rtl-floating-widget';
-    widget.innerHTML = `
-      <span class="hermes-rtl-status-dot"></span>
-      <button class="hermes-rtl-toggle-btn">
-        <span>RTL</span> <span class="hermes-rtl-badge">AUTO</span>
-      </button>
-      <span class="hermes-rtl-mode-switch" title="Switch Mode">⚙</span>
-    `;
-    document.body.appendChild(widget);
-
-    const toggleBtn = widget.querySelector('.hermes-rtl-toggle-btn');
-    const modeBtn = widget.querySelector('.hermes-rtl-mode-switch');
-    const badge = widget.querySelector('.hermes-rtl-badge');
-
-    toggleBtn.addEventListener('click', () => {
-      enabled = !enabled;
-      widget.classList.toggle('disabled', !enabled);
-      badge.textContent = enabled ? (mode === 'auto' ? 'AUTO' : (mode === 'force-rtl' ? 'RTL' : 'LTR')) : 'OFF';
-      processAllElements();
-    });
-
-    modeBtn.addEventListener('click', () => {
-      const modes = ['auto', 'force-rtl', 'force-ltr'];
-      mode = modes[(modes.indexOf(mode) + 1) % modes.length];
-      badge.textContent = mode === 'auto' ? 'AUTO' : (mode === 'force-rtl' ? 'RTL' : 'LTR');
-      processAllElements();
-    });
-  }
-
   function init() {
     if (document.body) {
-      createFloatingWidget();
       processAllElements();
       startObserver();
     } else {
       document.addEventListener('DOMContentLoaded', () => {
-        createFloatingWidget();
         processAllElements();
         startObserver();
       });

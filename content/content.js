@@ -20,8 +20,7 @@
     mode: 'auto', // 'auto' | 'force-rtl' | 'force-ltr'
     persianFont: true,
     formulaIsolation: true,
-    inputAutoDetect: true,
-    widgetPosition: { bottom: 24, right: 24 }
+    inputAutoDetect: true
   };
 
   let config = { ...DEFAULT_CONFIG };
@@ -204,127 +203,6 @@
   }
 
   // -------------------------------------------------------------------------
-  // Floating Quick-Toggle Widget
-  // -------------------------------------------------------------------------
-  function createFloatingWidget() {
-    if (document.getElementById('hermes-rtl-floating-widget')) return;
-
-    const widget = document.createElement('div');
-    widget.id = 'hermes-rtl-floating-widget';
-    widget.title = 'Hermes RTL & Math Assistant (Drag to move)';
-
-    const dot = document.createElement('span');
-    dot.className = 'hermes-rtl-status-dot';
-
-    const toggleBtn = document.createElement('button');
-    toggleBtn.className = 'hermes-rtl-toggle-btn';
-    toggleBtn.innerHTML = '<span>RTL</span> <span class="hermes-rtl-badge">AUTO</span>';
-
-    const modeBtn = document.createElement('span');
-    modeBtn.className = 'hermes-rtl-mode-switch';
-    modeBtn.textContent = '⚙';
-    modeBtn.title = 'Switch Mode: Auto / Force RTL / LTR';
-
-    widget.appendChild(dot);
-    widget.appendChild(toggleBtn);
-    widget.appendChild(modeBtn);
-
-    // Apply saved position
-    if (config.widgetPosition) {
-      widget.style.bottom = `${config.widgetPosition.bottom}px`;
-      widget.style.right = `${config.widgetPosition.right}px`;
-    }
-
-    document.body.appendChild(widget);
-
-    // Click handler to toggle ON/OFF
-    toggleBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      config.enabled = !config.enabled;
-      saveConfig();
-      updateWidgetUI();
-      processAllElements();
-    });
-
-    // Mode switch click handler
-    modeBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const modes = ['auto', 'force-rtl', 'force-ltr'];
-      const nextIdx = (modes.indexOf(config.mode) + 1) % modes.length;
-      config.mode = modes[nextIdx];
-      saveConfig();
-      updateWidgetUI();
-      processAllElements();
-    });
-
-    makeDraggable(widget);
-    updateWidgetUI();
-  }
-
-  function updateWidgetUI() {
-    const widget = document.getElementById('hermes-rtl-floating-widget');
-    if (!widget) return;
-
-    widget.classList.toggle('disabled', !config.enabled);
-
-    const badge = widget.querySelector('.hermes-rtl-badge');
-    if (badge) {
-      if (!config.enabled) {
-        badge.textContent = 'OFF';
-      } else if (config.mode === 'auto') {
-        badge.textContent = 'AUTO';
-      } else if (config.mode === 'force-rtl') {
-        badge.textContent = 'RTL';
-      } else {
-        badge.textContent = 'LTR';
-      }
-    }
-  }
-
-  function makeDraggable(el) {
-    let isDragging = false;
-    let startX, startY, origX, origY;
-
-    el.addEventListener('mousedown', (e) => {
-      if (e.target.closest('button') || e.target.closest('.hermes-rtl-mode-switch')) return;
-      isDragging = false;
-      startX = e.clientX;
-      startY = e.clientY;
-      const rect = el.getBoundingClientRect();
-      origX = rect.left;
-      origY = rect.top;
-
-      const onMouseMove = (moveEvent) => {
-        const dx = moveEvent.clientX - startX;
-        const dy = moveEvent.clientY - startY;
-        if (Math.abs(dx) > 3 || Math.abs(dy) > 3) {
-          isDragging = true;
-          el.style.left = `${Math.max(10, Math.min(window.innerWidth - el.offsetWidth - 10, origX + dx))}px`;
-          el.style.top = `${Math.max(10, Math.min(window.innerHeight - el.offsetHeight - 10, origY + dy))}px`;
-          el.style.bottom = 'auto';
-          el.style.right = 'auto';
-        }
-      };
-
-      const onMouseUp = () => {
-        document.removeEventListener('mousemove', onMouseMove);
-        document.removeEventListener('mouseup', onMouseUp);
-        if (isDragging) {
-          const rect = el.getBoundingClientRect();
-          config.widgetPosition = {
-            bottom: window.innerHeight - rect.bottom,
-            right: window.innerWidth - rect.right
-          };
-          saveConfig();
-        }
-      };
-
-      document.addEventListener('mousemove', onMouseMove);
-      document.addEventListener('mouseup', onMouseUp);
-    });
-  }
-
-  // -------------------------------------------------------------------------
   // Message Listener (from Popup / Extension Action)
   // -------------------------------------------------------------------------
   if (typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.onMessage) {
@@ -334,7 +212,6 @@
       } else if (msg.action === 'updateConfig') {
         config = { ...config, ...msg.config };
         saveConfig();
-        updateWidgetUI();
         processAllElements();
         sendResponse({ success: true, config });
       }
@@ -347,12 +224,10 @@
   function init() {
     loadConfig(() => {
       if (document.body) {
-        createFloatingWidget();
         processAllElements();
         startObserver();
       } else {
         document.addEventListener('DOMContentLoaded', () => {
-          createFloatingWidget();
           processAllElements();
           startObserver();
         });

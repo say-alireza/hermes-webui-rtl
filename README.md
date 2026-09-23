@@ -27,7 +27,7 @@ When using Persian or Arabic in Hermes Web UI:
 - **Input Field Auto-Switching:** Automatically detects Persian in the chat input textarea and aligns cursor and direction to RTL in real time.
 - **Persian Typography (Vazirmatn):** Injects the clean, readable Vazirmatn font with comfortable line-height (`1.85`).
 - **Real-Time Streaming Support:** An efficient, debounced `MutationObserver` ensures streaming AI responses are styled without flickering or lag.
-- **Sleek Floating Widget & Popup:** Toggle between `Auto`, `Force RTL`, and `Force LTR` or disable on demand.
+- **Clean Popup Controls:** Easily toggle between `Auto`, `Force RTL`, and `Force LTR` or customize options via the extension popup, without any intrusive on-screen floating bars or overlays.
 
 ---
 
@@ -66,7 +66,7 @@ hermes-webui-rtl/
 ├── manifest.json              # Chrome Extension Manifest V3 configuration
 ├── content/
 │   ├── content.js             # BiDi detector, DOM processor & MutationObserver
-│   └── content.css            # RTL typography, KaTeX isolation & widget styling
+│   └── content.css            # RTL typography & KaTeX math formula isolation rules
 ├── popup/
 │   ├── popup.html             # Extension settings popup UI
 │   ├── popup.css              # Dark theme styling for popup
